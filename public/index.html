@@ -139,16 +139,29 @@
         </nav>
 
         <div class="account-panel">
-          <div>
-            <strong id="accountName">Account</strong>
-            <span id="accountEmail">signed in</span>
+          <div class="account-info">
+            <div class="profile-avatar">DS</div>
+            <div class="account-meta">
+              <strong id="accountName">Account</strong>
+              <span id="accountEmail">signed in</span>
+            </div>
           </div>
           <div class="account-actions">
             <button id="themeToggleBtn" class="theme-toggle" type="button" aria-label="Switch to dark mode">
-              <span class="theme-toggle-icon" aria-hidden="true"></span>
+              <span class="theme-icon sun" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 4V2M12 22v-2M4.93 4.93 3.51 3.51M20.49 20.49l-1.42-1.42M4 12H2M22 12h-2M4.93 19.07l-1.42 1.42M20.49 3.51l-1.42 1.42" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="theme-icon moon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/></svg>
+              </span>
               <span class="theme-toggle-text">Dark</span>
             </button>
-            <button id="signoutBtn" class="ghost-button" type="button">Sign out</button>
+            <button id="signoutBtn" class="ghost-button" type="button">
+              <span class="signout-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Sign out
+            </button>
           </div>
         </div>
       </aside>
@@ -156,10 +169,13 @@
       <main class="content">
         <header class="topbar">
           <div class="topbar-title">
-            <button id="menuToggleBtn" class="icon-button menu-button" type="button" aria-label="Open menu">
-              <span></span>
-              <span></span>
-              <span></span>
+            <button id="menuToggleBtn" class="icon-button menu-button" type="button" aria-label="Open menu" aria-expanded="false">
+              <svg class="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg class="close-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
             <div>
               <p class="eyebrow">Planner</p>
@@ -168,10 +184,18 @@
           </div>
           <div class="topbar-actions">
             <button id="topbarThemeToggleBtn" class="theme-toggle compact" type="button" aria-label="Switch to dark mode">
-              <span class="theme-toggle-icon" aria-hidden="true"></span>
+              <span class="theme-icon sun" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4V2M12 22v-2M4.93 4.93 3.51 3.51M20.49 20.49l-1.42-1.42M4 12H2M22 12h-2M4.93 19.07l-1.42 1.42M20.49 3.51l-1.42 1.42" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="theme-icon moon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/></svg>
+              </span>
               <span class="theme-toggle-text">Dark</span>
             </button>
-            <button class="primary-button compact" type="button" data-route="activities">
+            <button id="newActivityBtn" class="primary-button compact" type="button" data-route="activities" aria-label="New activity">
+              <span class="new-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
               New activity
             </button>
           </div>
