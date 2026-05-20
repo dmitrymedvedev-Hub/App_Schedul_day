@@ -47,10 +47,20 @@ h1,h2,h3,h4{font-family: Georgia, "Times New Roman", Times, serif;font-weight:70
 .account-panel{display:flex;flex-direction:column;gap:.75rem;margin-top:auto;padding-top:1rem;border-top:1px solid var(--line)}
 .account-info{display:flex;gap:.6rem;align-items:center}
 .profile-avatar{width:44px;height:44px;border-radius:10px;background:var(--page-accent);color:var(--page-contrast);display:grid;place-items:center;font-weight:800}
-.account-meta strong{display:block}
+.account-meta{min-width:0;overflow:hidden}
+.account-meta strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.account-meta span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-size:0.85rem;color:var(--muted)}
 .account-actions{display:flex;gap:.5rem;align-items:center}
 .ghost-button{background:transparent;border:1px solid var(--line);padding:.45rem .6rem;border-radius:10px}
 .signout-icon{margin-right:.4rem}
+
+/* ensure sidebar sits above main content when expanded and its controls don't get clipped */
+.sidebar{z-index:60}
+.account-panel{padding-bottom:1rem}
+
+/* hide account details in collapsed sidebar to avoid overflow */
+.app-shell.menu-collapsed .account-meta,
+.app-shell.menu-collapsed .account-actions{display:none}
 
 body[data-route="home"] {
   --page-accent: #0f766e;
