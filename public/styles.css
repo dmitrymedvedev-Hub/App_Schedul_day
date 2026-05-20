@@ -505,7 +505,7 @@ brand-text-lockup span{font-size:0.85rem;color:var(--muted)}
   border: 0;
   border-radius: var(--radius);
   background: transparent;
-  color: #344054;
+  color: var(--label);
   padding: 0.82rem 0.9rem;
   text-align: left;
   font-weight: 700;
@@ -1094,19 +1094,19 @@ brand-text-lockup span{font-size:0.85rem;color:var(--muted)}
   /* profile card polish */
   .profile-card {
     padding: 1.25rem;
-    background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, #ffffff 1%), var(--surface));
+    background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 96%, var(--sidebar-bg) 4%), var(--surface));
     border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
-    box-shadow: 0 10px 30px rgba(3, 12, 20, 0.45);
+    box-shadow: 0 10px 30px rgba(3, 12, 20, 0.6);
     border-radius: var(--radius);
     animation: fadeUp 420ms ease both;
   }
   .profile-identity{display:flex;gap:1rem;align-items:center;margin-bottom:0.8rem}
-  .profile-identity h2{margin:0;font-size:1.2rem}
-  .profile-identity p{margin:0;color:var(--muted)}
+  .profile-identity h2{margin:0;font-size:1.2rem;color:var(--ink)}
+  .profile-identity p{margin:0;color:var(--label)}
   .profile-details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.8rem;margin-top:0.6rem}
-  .profile-details > div{background: linear-gradient(180deg, color-mix(in srgb,var(--page-soft) 8%, transparent), transparent);border-radius:8px;padding:.8rem;border:1px solid var(--line)}
-  .profile-details span{display:block;color:var(--muted);font-size:0.85rem}
-  .profile-details strong{display:block;font-size:1.05rem;margin-top:0.4rem}
+  .profile-details > div{background: var(--surface-soft);border-radius:8px;padding:.8rem;border:1px solid color-mix(in srgb,var(--line) 60%, transparent)}
+  .profile-details span{display:block;color:var(--label);font-size:0.85rem}
+  .profile-details strong{display:block;font-size:1.05rem;margin-top:0.4rem;color:var(--ink)}
 }
 
 @media (max-width: 720px) {

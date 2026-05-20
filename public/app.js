@@ -446,11 +446,14 @@ const openMenu = () => {
     elements.menuToggleBtn.setAttribute('aria-expanded', 'true');
     elements.menuToggleBtn.classList.add('open');
   }
+  const isOverlay = window.innerWidth <= 980;
   // If a dedicated sidebar close button exists, show it for accessibility on small screens
-  if (elements.menuCloseBtn) elements.menuCloseBtn.style.display = '';
-  // accessibility: hide main content from assistive tech and trap focus in sidebar
-  document.querySelectorAll('main, header, footer, [role="main"]').forEach((el) => el?.setAttribute('aria-hidden', 'true'));
-  enableSidebarFocusTrap();
+  if (elements.menuCloseBtn) elements.menuCloseBtn.style.display = isOverlay ? '' : 'none';
+  // accessibility: hide main content from assistive tech and trap focus in sidebar only for overlay (mobile)
+  if (isOverlay) {
+    document.querySelectorAll('main, header, footer, [role="main"]').forEach((el) => el?.setAttribute('aria-hidden', 'true'));
+    enableSidebarFocusTrap();
+  }
 };
 
 const closeMenu = () => {
