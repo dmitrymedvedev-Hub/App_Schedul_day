@@ -350,6 +350,8 @@ textarea {
   font-weight: 800;
 }
 
+.brand-text-lockup strong{display:block}
+.brand-text-lockup span{font-size:0.85rem;color:var(--muted)}
 .icon-button {
   width: 42px;
   height: 42px;
@@ -358,20 +360,34 @@ textarea {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
+#menuCloseBtn{
+  display:none;
+  position:absolute;
+  right:12px;
+  top:12px;
+  z-index:30;
+  width:40px;height:40px;display:inline-grid;place-items:center;border-radius:10px;background:transparent;border:1px solid var(--line);
+}
   color: var(--ink);
   font-weight: 900;
-  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    display:flex;flex-direction:column;gap:.5rem;padding:1rem 0;
 }
 
 .icon-button:hover {
-  background: var(--page-soft);
+    text-align: left;
+    display:flex;align-items:center;gap:.75rem;padding:.6rem .75rem;border-radius:10px;background:transparent;border:0;color:var(--ink);font-weight:600;cursor:pointer;
   border-color: color-mix(in srgb, var(--page-accent) 35%, var(--line));
+.nav-icon{width:20px;height:20px;display:inline-grid;place-items:center;color:var(--muted)}
+.nav-text{display:inline-block}
+
+.nav-item:hover{background:color-mix(in srgb, var(--page-soft) 60%, var(--surface));}
+.nav-item.active{background:linear-gradient(90deg,var(--page-soft),transparent);border-left:3px solid var(--page-accent);padding-left:calc(.75rem - 3px);}
   transform: translateY(-1px);
 }
 
 .menu-button span {
   width: 17px;
-  height: 2px;
+    width: min(84vw, 320px);
   border-radius: 999px;
   background: currentColor;
 }
@@ -380,6 +396,12 @@ textarea {
   gap: 4px;
 }
 
+
+  /* collapsed state: hide nav text and shrink brand */
+  .app-shell.menu-collapsed .sidebar{ width:72px }
+  .app-shell.menu-collapsed .nav-text{ display:none }
+  .app-shell.menu-collapsed .brand-text-lockup{ display:none }
+  .app-shell.menu-collapsed .brand-mark{ margin-right:0 }
 /* animate menu button into an X when open */
 .menu-button.open span:nth-child(1){transform-origin:left;transform:translateY(6px) rotate(45deg)}
 .menu-button.open span:nth-child(2){opacity:0;transform:scaleX(0)}
