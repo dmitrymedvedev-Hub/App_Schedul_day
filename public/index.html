@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Scheduler Pro</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <h1>Daily Scheduler Pro</h1>
+        <p>Organize your day with a clean and professional planner.</p>
+      </header>
+
+      <section class="panel">
+        <h2>Create or update task</h2>
+        <form id="scheduleForm" class="grid-form">
+          <input type="hidden" id="scheduleId" />
+
+          <label>
+            Task title
+            <input id="title" type="text" minlength="3" required />
+          </label>
+
+          <label>
+            Date
+            <input id="taskDate" type="date" required />
+          </label>
+
+          <label>
+            Start time
+            <input id="startTime" type="time" required />
+          </label>
+
+          <label>
+            End time
+            <input id="endTime" type="time" required />
+          </label>
+
+          <label>
+            Priority
+            <select id="priority" required>
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+
+          <label>
+            Status
+            <select id="status" required>
+              <option value="pending" selected>Pending</option>
+              <option value="in_progress">In progress</option>
+              <option value="completed">Completed</option>
+            </select>
+          </label>
+
+          <label class="full-width">
+            Notes
+            <textarea id="notes" rows="3" maxlength="500" placeholder="Optional notes..."></textarea>
+          </label>
+
+          <div class="form-actions full-width">
+            <button type="submit" class="primary">Save task</button>
+            <button type="button" id="resetBtn" class="ghost">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="toolbar">
+          <h2>My schedule</h2>
+          <label>
+            Filter by date
+            <input id="filterDate" type="date" />
+          </label>
+        </div>
+        <p id="message" class="message"></p>
+        <div id="scheduleList" class="schedule-list"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
