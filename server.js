@@ -6,7 +6,13 @@ const { initializeDatabase, pool } = require('./db');
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
-const AUTH_SECRET = process.env.AUTH_SECRET || 'change-this-secret-in-production';
+const authSecret = process.env.AUTH_SECRET?.trim();
+
+if (!authSecret) {
+  throw new Error('AUTH_SECRET environment variable is required.');
+}
+
+const AUTH_SECRET = authSecret;
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 24 * 7;
 const databaseUnavailableMessage =
   'Database is not connected. Check your MySQL credentials in .env, then restart the server.';
