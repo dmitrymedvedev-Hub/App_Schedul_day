@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day Scheduler</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Day Scheduler</h1>
+      <p class="subtitle">Plan your day and optimize your time.</p>
+
+      <form id="task-form" class="task-form">
+        <label>
+          Task
+          <input id="task-name" type="text" placeholder="Write report" required maxlength="80" />
+        </label>
+        <label>
+          Duration (minutes)
+          <input id="task-duration" type="number" min="5" step="5" value="30" required />
+        </label>
+        <label>
+          Priority
+          <select id="task-priority">
+            <option value="3">High</option>
+            <option value="2" selected>Medium</option>
+            <option value="1">Low</option>
+          </select>
+        </label>
+        <button type="submit">Add task</button>
+      </form>
+
+      <section class="summary" id="summary" aria-live="polite"></section>
+
+      <ol id="task-list" class="task-list"></ol>
+      <button id="clear-btn" type="button" class="clear-btn">Clear all</button>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
