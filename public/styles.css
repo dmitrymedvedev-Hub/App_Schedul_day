@@ -1,0 +1,163 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f7fb;
+  --panel: #ffffff;
+  --text: #1f2a37;
+  --muted: #6b7280;
+  --primary: #1d4ed8;
+  --border: #dbe3ee;
+  --danger: #b42318;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: radial-gradient(circle at top right, #dbeafe, var(--bg) 40%);
+  color: var(--text);
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.header h1 {
+  margin-bottom: 0.3rem;
+}
+
+.header p {
+  margin-top: 0;
+  color: var(--muted);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.06);
+  margin-bottom: 1rem;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.8rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+}
+
+input,
+select,
+textarea,
+button {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  padding: 0.58rem 0.65rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.7rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+button.primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+button.ghost {
+  background: #fff;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.message {
+  min-height: 1rem;
+  color: var(--muted);
+}
+
+.message.error {
+  color: var(--danger);
+}
+
+.schedule-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid transparent;
+}
+
+.badge.low {
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.badge.medium {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.badge.high {
+  background: #fef2f2;
+  color: #b42318;
+}
+
+.actions {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.empty {
+  color: var(--muted);
+  font-style: italic;
+}
