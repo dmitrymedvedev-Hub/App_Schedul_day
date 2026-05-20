@@ -11,10 +11,30 @@ const clearBtn = document.getElementById("clear-btn");
 
 let tasks = loadTasks();
 
+function normalizeTask(item) {
+  if (!item || typeof item !== "object") return null;
+
+  const name = typeof item.name === "string" ? item.name.trim() : "";
+  const duration = Number(item.duration);
+  const priority = Number(item.priority);
+
+  if (!name || Number.isNaN(duration) || duration <= 0) return null;
+
+  return {
+    id: typeof item.id === "string" && item.id ? item.id : generateTaskId(),
+    name,
+    duration,
+    priority: priority === 3 || priority === 2 || priority === 1 ? priority : 2,
+  };
+}
+
 function loadTasks() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map(normalizeTask).filter(Boolean);
   } catch {
     return [];
   }
@@ -73,6 +93,13 @@ function priorityLabel(value) {
   return "Low";
 }
 
+function generateTaskId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `task-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -83,7 +110,7 @@ form.addEventListener("submit", (event) => {
   if (!name || Number.isNaN(duration) || duration <= 0) return;
 
   tasks.push({
-    id: crypto.randomUUID(),
+    id: generateTaskId(),
     name,
     duration,
     priority,
