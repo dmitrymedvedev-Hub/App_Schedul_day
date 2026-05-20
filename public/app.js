@@ -661,20 +661,24 @@ const handleActivityAction = async (event) => {
 };
 
 document.addEventListener('click', (event) => {
-  const target = event.target;
-  if (!(target instanceof HTMLButtonElement)) return;
+  // delegate to the closest button element so clicks on inner spans/icons still trigger
+  const clicked = event.target;
+  const button = clicked.closest ? clicked.closest('button') : null;
+  if (!button) return;
 
-  if (target.dataset.action) {
-    handleActivityAction(event);
+  if (button.dataset.action) {
+    handleActivityAction({ target: button });
     return;
   }
 
-  if (target.dataset.route) {
-    setRoute(target.dataset.route);
+  if (button.dataset.route) {
+    setRoute(button.dataset.route);
+    return;
   }
 
-  if (target.dataset.authMode) {
-    setAuthMode(target.dataset.authMode);
+  if (button.dataset.authMode) {
+    setAuthMode(button.dataset.authMode);
+    return;
   }
 });
 
