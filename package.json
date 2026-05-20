@@ -1,12 +1,12 @@
 {
-  "name": "app_schedul_day",
+  "name": "daystride",
   "version": "1.0.0",
-  "description": "Professional day scheduling web app",
+  "description": "DayStride professional daily planning workspace",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "test": "node -e \"console.log('No automated tests configured')\""
+    "test": "node --check server.js && node --check db.js && node --check public/app.js"
   },
   "keywords": [],
   "author": "",

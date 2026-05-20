@@ -3,83 +3,438 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Scheduler Pro</title>
+    <title>DayStride</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="container">
-      <header class="header">
-        <h1>Daily Scheduler Pro</h1>
-        <p>Organize your day with a clean and professional planner.</p>
-      </header>
-
-      <section class="panel">
-        <h2>Create or update task</h2>
-        <form id="scheduleForm" class="grid-form">
-          <input type="hidden" id="scheduleId" />
-
-          <label>
-            Task title
-            <input id="title" type="text" minlength="3" required />
-          </label>
-
-          <label>
-            Date
-            <input id="taskDate" type="date" required />
-          </label>
-
-          <label>
-            Start time
-            <input id="startTime" type="time" required />
-          </label>
-
-          <label>
-            End time
-            <input id="endTime" type="time" required />
-          </label>
-
-          <label>
-            Priority
-            <select id="priority" required>
-              <option value="low">Low</option>
-              <option value="medium" selected>Medium</option>
-              <option value="high">High</option>
-            </select>
-          </label>
-
-          <label>
-            Status
-            <select id="status" required>
-              <option value="pending" selected>Pending</option>
-              <option value="in_progress">In progress</option>
-              <option value="completed">Completed</option>
-            </select>
-          </label>
-
-          <label class="full-width">
-            Notes
-            <textarea id="notes" rows="3" maxlength="500" placeholder="Optional notes..."></textarea>
-          </label>
-
-          <div class="form-actions full-width">
-            <button type="submit" class="primary">Save task</button>
-            <button type="button" id="resetBtn" class="ghost">Clear</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="panel">
-        <div class="toolbar">
-          <h2>My schedule</h2>
-          <label>
-            Filter by date
-            <input id="filterDate" type="date" />
-          </label>
+    <div id="authShell" class="auth-shell">
+      <button id="authThemeToggleBtn" class="theme-toggle auth-theme-toggle" type="button" aria-label="Switch to dark mode">
+        <span class="theme-toggle-icon" aria-hidden="true"></span>
+        <span class="theme-toggle-text">Dark</span>
+      </button>
+      <section class="auth-intro">
+        <p class="eyebrow">DayStride</p>
+        <h1>Build better days with calm focus.</h1>
+        <p>
+          A friendly planning workspace for activities, priorities, profile insights,
+          and a clearer stride through every day.
+        </p>
+        <div class="auth-preview" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <p id="message" class="message"></p>
-        <div id="scheduleList" class="schedule-list"></div>
       </section>
-    </main>
+
+      <section id="signinView" class="auth-card">
+        <div class="section-heading">
+          <p class="eyebrow">Welcome back</p>
+          <h2>Sign in</h2>
+        </div>
+        <p class="message auth-message" role="status"></p>
+        <form id="signinForm" class="auth-form">
+          <label>
+            Email
+            <input id="signinEmail" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            Password
+            <input
+              id="signinPassword"
+              type="password"
+              autocomplete="current-password"
+              minlength="8"
+              required
+            />
+          </label>
+          <button class="primary-button" type="submit">Sign in</button>
+        </form>
+        <p class="switch-copy">
+          New here?
+          <button class="link-button" type="button" data-auth-mode="signup">
+            Create account
+          </button>
+        </p>
+      </section>
+
+      <section id="signupView" class="auth-card hidden">
+        <div class="section-heading">
+          <p class="eyebrow">Start organized</p>
+          <h2>Create account</h2>
+        </div>
+        <p class="message auth-message" role="status"></p>
+        <form id="signupForm" class="auth-form">
+          <label>
+            Full name
+            <input id="signupName" type="text" autocomplete="name" minlength="2" required />
+          </label>
+          <label>
+            Email
+            <input id="signupEmail" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            Password
+            <input
+              id="signupPassword"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            />
+          </label>
+          <button class="primary-button" type="submit">Create account</button>
+        </form>
+        <p class="switch-copy">
+          Already have an account?
+          <button class="link-button" type="button" data-auth-mode="signin">
+            Sign in
+          </button>
+        </p>
+      </section>
+    </div>
+
+    <div id="appShell" class="app-shell hidden">
+      <button id="sidebarOverlay" class="sidebar-overlay" type="button" aria-label="Close menu"></button>
+      <aside id="sidebar" class="sidebar" aria-label="Application menu">
+        <div class="brand">
+          <div class="brand-lockup">
+            <div class="brand-mark">DS</div>
+            <div>
+              <strong>DayStride</strong>
+              <span>Focus workspace</span>
+            </div>
+          </div>
+          <button id="menuCloseBtn" class="icon-button" type="button" aria-label="Close menu">x</button>
+        </div>
+
+        <nav class="nav-list" aria-label="Main navigation">
+          <button class="nav-item active" type="button" data-route="home">Home</button>
+          <button class="nav-item" type="button" data-route="dashboard">Dashboard</button>
+          <button class="nav-item" type="button" data-route="activities">My activities</button>
+          <button class="nav-item" type="button" data-route="profile">Profile</button>
+        </nav>
+
+        <div class="account-panel">
+          <div>
+            <strong id="accountName">Account</strong>
+            <span id="accountEmail">signed in</span>
+          </div>
+          <div class="account-actions">
+            <button id="themeToggleBtn" class="theme-toggle" type="button" aria-label="Switch to dark mode">
+              <span class="theme-toggle-icon" aria-hidden="true"></span>
+              <span class="theme-toggle-text">Dark</span>
+            </button>
+            <button id="signoutBtn" class="ghost-button" type="button">Sign out</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div class="topbar-title">
+            <button id="menuToggleBtn" class="icon-button menu-button" type="button" aria-label="Open menu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <div>
+              <p class="eyebrow">Planner</p>
+              <h1 id="pageTitle">Home</h1>
+            </div>
+          </div>
+          <div class="topbar-actions">
+            <button id="topbarThemeToggleBtn" class="theme-toggle compact" type="button" aria-label="Switch to dark mode">
+              <span class="theme-toggle-icon" aria-hidden="true"></span>
+              <span class="theme-toggle-text">Dark</span>
+            </button>
+            <button class="primary-button compact" type="button" data-route="activities">
+              New activity
+            </button>
+          </div>
+        </header>
+
+        <p id="message" class="message" role="status"></p>
+
+        <section id="homePage" class="page-view">
+          <div class="hero-panel">
+            <div>
+              <p class="eyebrow" id="todayLabel">Today</p>
+              <h2 id="welcomeTitle">Welcome back.</h2>
+              <p id="homeSummary">Your schedule will appear here after you add activities.</p>
+            </div>
+            <button class="secondary-button" type="button" data-route="dashboard">
+              View dashboard
+            </button>
+          </div>
+
+          <div class="stat-grid">
+            <article class="stat-card">
+              <span>Today</span>
+              <strong id="todayCount">0</strong>
+              <p>activities</p>
+            </article>
+            <article class="stat-card">
+              <span>Planned</span>
+              <strong id="plannedMinutes">0m</strong>
+              <p>scheduled time</p>
+            </article>
+            <article class="stat-card">
+              <span>Completed</span>
+              <strong id="completedCount">0</strong>
+              <p>finished tasks</p>
+            </article>
+          </div>
+
+          <div class="insight-grid">
+            <article class="insight-card">
+              <span>Up next</span>
+              <strong id="nextActivityTitle">Nothing scheduled</strong>
+              <p id="nextActivityMeta">Add an activity to build your plan.</p>
+            </article>
+            <article class="insight-card">
+              <span>Focus tip</span>
+              <strong id="focusTipTitle">Keep it simple</strong>
+              <p id="focusTipCopy">Start with one high-value activity and protect that time.</p>
+            </article>
+          </div>
+
+          <section class="work-panel">
+            <div class="section-heading row-heading">
+              <div>
+                <p class="eyebrow">Today</p>
+                <h2>Priority activities</h2>
+              </div>
+              <button class="link-button" type="button" data-route="activities">Manage all</button>
+            </div>
+            <div id="homeActivityList" class="activity-list"></div>
+          </section>
+        </section>
+
+        <section id="dashboardPage" class="page-view hidden">
+          <div class="dashboard-grid">
+            <article class="metric-panel">
+              <span>Total activities</span>
+              <strong id="totalActivities">0</strong>
+              <p>across your workspace</p>
+            </article>
+            <article class="metric-panel">
+              <span>High priority</span>
+              <strong id="highPriorityCount">0</strong>
+              <p>needs attention</p>
+            </article>
+            <article class="metric-panel">
+              <span>Completion</span>
+              <strong id="completionRate">0%</strong>
+              <p>overall progress</p>
+            </article>
+            <article class="metric-panel">
+              <span>Today planned</span>
+              <strong id="dashboardTodayMinutes">0m</strong>
+              <p>focused time today</p>
+            </article>
+          </div>
+
+          <div class="dashboard-columns">
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Timeline</p>
+                <h2>Today schedule</h2>
+              </div>
+              <div id="timelineList" class="timeline-list"></div>
+            </section>
+
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Status</p>
+                <h2>Activity balance</h2>
+              </div>
+              <div id="statusBreakdown" class="breakdown-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="activitiesPage" class="page-view hidden">
+          <section class="work-panel">
+            <div class="section-heading">
+              <p class="eyebrow">Activity details</p>
+              <h2 id="formTitle">Create activity</h2>
+            </div>
+            <form id="scheduleForm" class="grid-form">
+              <input type="hidden" id="scheduleId" />
+
+              <label>
+                Activity title
+                <input id="title" type="text" minlength="3" required />
+              </label>
+
+              <label>
+                Date
+                <input id="taskDate" type="date" required />
+              </label>
+
+              <label>
+                Start time
+                <input id="startTime" type="time" required />
+              </label>
+
+              <label>
+                End time
+                <input id="endTime" type="time" required />
+              </label>
+
+              <label>
+                Priority
+                <select id="priority" required>
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </label>
+
+              <label>
+                Status
+                <select id="status" required>
+                  <option value="pending" selected>Pending</option>
+                  <option value="in_progress">In progress</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </label>
+
+              <label class="full-width">
+                Notes
+                <textarea id="notes" rows="3" maxlength="500" placeholder="Optional notes"></textarea>
+              </label>
+
+              <div class="form-actions full-width">
+                <button type="submit" class="primary-button">Save activity</button>
+                <button type="button" id="resetBtn" class="ghost-button">Clear</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="work-panel">
+            <div class="activity-toolbar">
+              <div class="section-heading">
+                <p class="eyebrow">Workspace</p>
+                <h2>My activities</h2>
+              </div>
+              <div class="filters">
+                <label>
+                  Search
+                  <input id="filterSearch" type="search" placeholder="Find activity" />
+                </label>
+                <label>
+                  Date
+                  <input id="filterDate" type="date" />
+                </label>
+                <label>
+                  Status
+                  <select id="filterStatus">
+                    <option value="all">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </label>
+                <label>
+                  Priority
+                  <select id="filterPriority">
+                    <option value="all">All</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </label>
+                <button id="clearFiltersBtn" class="ghost-button compact" type="button">Clear filters</button>
+              </div>
+            </div>
+            <div id="scheduleList" class="activity-list"></div>
+          </section>
+        </section>
+
+        <section id="profilePage" class="page-view hidden">
+          <div class="profile-grid">
+            <section class="profile-card">
+              <div class="profile-identity">
+                <div id="profileAvatar" class="profile-avatar">DS</div>
+                <div>
+                  <p class="eyebrow">Profile</p>
+                  <h2 id="profileName">Account name</h2>
+                  <p id="profileEmail">account@example.com</p>
+                </div>
+              </div>
+
+              <div class="profile-details">
+                <div>
+                  <span>Account status</span>
+                  <strong>Active</strong>
+                </div>
+                <div>
+                  <span>Member since</span>
+                  <strong id="profileMemberSince">Today</strong>
+                </div>
+                <div>
+                  <span>Workspace</span>
+                  <strong>Personal planner</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Account settings</p>
+                <h2>Edit profile</h2>
+              </div>
+              <form id="profileForm" class="profile-form">
+                <label>
+                  Full name
+                  <input id="profileNameInput" type="text" minlength="2" autocomplete="name" required />
+                </label>
+                <label>
+                  Email address
+                  <input id="profileEmailInput" type="email" autocomplete="email" required />
+                </label>
+                <button class="primary-button" type="submit">Save profile</button>
+              </form>
+            </section>
+          </div>
+
+          <div class="profile-grid">
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Productivity</p>
+                <h2>Profile insights</h2>
+              </div>
+              <div class="profile-insights">
+                <article>
+                  <span>Total activities</span>
+                  <strong id="profileTotalActivities">0</strong>
+                </article>
+                <article>
+                  <span>Completed</span>
+                  <strong id="profileCompletedActivities">0</strong>
+                </article>
+                <article>
+                  <span>High priority</span>
+                  <strong id="profileHighPriority">0</strong>
+                </article>
+              </div>
+            </section>
+
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Security</p>
+                <h2>Session</h2>
+              </div>
+              <p class="profile-copy">
+                Your profile is protected by a signed session token. Sign out when using a shared computer.
+              </p>
+              <button id="profileSignoutBtn" class="ghost-button" type="button">Sign out</button>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <script src="app.js"></script>
   </body>
