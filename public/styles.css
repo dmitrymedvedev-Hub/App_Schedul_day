@@ -376,8 +376,8 @@ textarea {
   font-weight: 800;
 }
 
-brand-text-lockup strong{display:block}
-brand-text-lockup span{font-size:0.85rem;color:var(--muted)}
+.brand-text-lockup strong{display:block}
+.brand-text-lockup span{font-size:0.85rem;color:var(--muted)}
 
 /* Icon buttons */
 .icon-button {
