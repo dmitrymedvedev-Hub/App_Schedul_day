@@ -6,10 +6,10 @@ const { initializeDatabase, pool } = require('./db');
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
-const authSecret = process.env.AUTH_SECRET?.trim();
+const authSecret = process.env.AUTH_SECRET?.trim() || 'daystride-development-secret';
 
-if (!authSecret) {
-  throw new Error('AUTH_SECRET environment variable is required.');
+if (!process.env.AUTH_SECRET?.trim()) {
+  console.warn('AUTH_SECRET is missing. Using a temporary development secret for this session.');
 }
 
 const AUTH_SECRET = authSecret;
