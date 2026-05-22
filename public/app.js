@@ -25,6 +25,7 @@ const elements = {
   menuToggleBtn: document.getElementById('menuToggleBtn'),
   menuCloseBtn: document.getElementById('menuCloseBtn'),
   sidebarOverlay: document.getElementById('sidebarOverlay'),
+  newActivityBtn: document.getElementById('newActivityBtn'),
   signoutBtn: document.getElementById('signoutBtn'),
   profileSignoutBtn: document.getElementById('profileSignoutBtn'),
   accountName: document.getElementById('accountName'),
@@ -105,7 +106,16 @@ const formatDateInput = (date = new Date()) => {
 
 const today = () => formatDateInput();
 
-const toDateKey = (value) => String(value || '').slice(0, 10);
+const toDateKey = (value) => {
+  if (!value) return '';
+
+  const date = new Date(value);
+  if (!Number.isNaN(date.getTime())) {
+    return date.toLocaleDateString('en-CA');
+  }
+
+  return String(value).slice(0, 10);
+};
 
 const toTime = (value) => String(value || '').slice(0, 5);
 
@@ -532,6 +542,12 @@ const resetForm = () => {
   elements.formTitle.textContent = 'Create activity';
 };
 
+const openActivitiesPage = () => {
+  resetForm();
+  setRoute('activities');
+  elements.fields.title.focus();
+};
+
 const readFormData = () => ({
   title: elements.fields.title.value.trim(),
   taskDate: elements.fields.taskDate.value,
@@ -592,15 +608,21 @@ elements.signupForm.addEventListener('submit', async (event) => {
 elements.scheduleForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const id = elements.fields.id.value;
+  const taskDate = elements.fields.taskDate.value;
 
   try {
     await apiRequest(id ? `/api/schedules/${id}` : '/api/schedules', {
       method: id ? 'PUT' : 'POST',
       body: JSON.stringify(readFormData())
     });
+    elements.filterSearch.value = '';
+    elements.filterStatus.value = 'all';
+    elements.filterPriority.value = 'all';
+    elements.filterDate.value = taskDate || today();
     setMessage(id ? 'Activity updated.' : 'Activity created.');
     resetForm();
     await loadSchedules();
+    setRoute('activities');
   } catch (error) {
     setMessage(error.message, true);
   }
@@ -675,6 +697,11 @@ document.addEventListener('click', (event) => {
   }
 
   if (button.dataset.route) {
+    if (button.id === 'newActivityBtn' && button.dataset.route === 'activities') {
+      openActivitiesPage();
+      return;
+    }
+
     setRoute(button.dataset.route);
     return;
   }
@@ -700,6 +727,7 @@ elements.clearFiltersBtn.addEventListener('click', () => {
 if (elements.menuToggleBtn) elements.menuToggleBtn.addEventListener('click', toggleMenu);
 if (elements.menuCloseBtn) elements.menuCloseBtn.addEventListener('click', closeMenu);
 if (elements.sidebarOverlay) elements.sidebarOverlay.addEventListener('click', closeMenu);
+if (elements.newActivityBtn) elements.newActivityBtn.addEventListener('click', openActivitiesPage);
 elements.themeButtons.forEach((button) => button.addEventListener('click', toggleTheme));
 window.addEventListener('resize', () => {
   if (window.innerWidth > 980) openMenu();
