@@ -3,83 +3,488 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Scheduler Pro</title>
+    <title>DayStride</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="container">
-      <header class="header">
-        <h1>Daily Scheduler Pro</h1>
-        <p>Organize your day with a clean and professional planner.</p>
-      </header>
-
-      <section class="panel">
-        <h2>Create or update task</h2>
-        <form id="scheduleForm" class="grid-form">
-          <input type="hidden" id="scheduleId" />
-
-          <label>
-            Task title
-            <input id="title" type="text" minlength="3" required />
-          </label>
-
-          <label>
-            Date
-            <input id="taskDate" type="date" required />
-          </label>
-
-          <label>
-            Start time
-            <input id="startTime" type="time" required />
-          </label>
-
-          <label>
-            End time
-            <input id="endTime" type="time" required />
-          </label>
-
-          <label>
-            Priority
-            <select id="priority" required>
-              <option value="low">Low</option>
-              <option value="medium" selected>Medium</option>
-              <option value="high">High</option>
-            </select>
-          </label>
-
-          <label>
-            Status
-            <select id="status" required>
-              <option value="pending" selected>Pending</option>
-              <option value="in_progress">In progress</option>
-              <option value="completed">Completed</option>
-            </select>
-          </label>
-
-          <label class="full-width">
-            Notes
-            <textarea id="notes" rows="3" maxlength="500" placeholder="Optional notes..."></textarea>
-          </label>
-
-          <div class="form-actions full-width">
-            <button type="submit" class="primary">Save task</button>
-            <button type="button" id="resetBtn" class="ghost">Clear</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="panel">
-        <div class="toolbar">
-          <h2>My schedule</h2>
-          <label>
-            Filter by date
-            <input id="filterDate" type="date" />
-          </label>
+    <div id="authShell" class="auth-shell">
+      <button id="authThemeToggleBtn" class="theme-toggle auth-theme-toggle" type="button" aria-label="Switch to dark mode">
+        <span class="theme-toggle-icon" aria-hidden="true"></span>
+        <span class="theme-toggle-text">Dark</span>
+      </button>
+      <section class="auth-intro">
+        <p class="eyebrow">DayStride</p>
+        <h1>Build better days with calm focus.</h1>
+        <p>
+          A friendly planning workspace for activities, priorities, profile insights,
+          and a clearer stride through every day.
+        </p>
+        <div class="auth-preview" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <p id="message" class="message"></p>
-        <div id="scheduleList" class="schedule-list"></div>
       </section>
-    </main>
+
+      <section id="signinView" class="auth-card">
+        <div class="section-heading">
+          <p class="eyebrow">Welcome back</p>
+          <h2>Sign in</h2>
+        </div>
+        <p class="message auth-message" role="status"></p>
+        <form id="signinForm" class="auth-form">
+          <label>
+            Email
+            <input id="signinEmail" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            Password
+            <input
+              id="signinPassword"
+              type="password"
+              autocomplete="current-password"
+              minlength="8"
+              required
+            />
+          </label>
+          <button class="primary-button" type="submit">Sign in</button>
+        </form>
+        <p class="switch-copy">
+          New here?
+          <button class="link-button" type="button" data-auth-mode="signup">
+            Create account
+          </button>
+        </p>
+      </section>
+
+      <section id="signupView" class="auth-card hidden">
+        <div class="section-heading">
+          <p class="eyebrow">Start organized</p>
+          <h2>Create account</h2>
+        </div>
+        <p class="message auth-message" role="status"></p>
+        <form id="signupForm" class="auth-form">
+          <label>
+            Full name
+            <input id="signupName" type="text" autocomplete="name" minlength="2" required />
+          </label>
+          <label>
+            Email
+            <input id="signupEmail" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            Password
+            <input
+              id="signupPassword"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            />
+          </label>
+          <button class="primary-button" type="submit">Create account</button>
+        </form>
+        <p class="switch-copy">
+          Already have an account?
+          <button class="link-button" type="button" data-auth-mode="signin">
+            Sign in
+          </button>
+        </p>
+      </section>
+    </div>
+
+    <div id="appShell" class="app-shell hidden">
+      <button id="sidebarOverlay" class="sidebar-overlay" type="button" aria-label="Close menu"></button>
+      <aside id="sidebar" class="sidebar" aria-label="Application menu">
+        <div class="brand">
+          <div class="brand-lockup">
+            <div class="brand-mark">DS</div>
+            <div class="brand-text-lockup">
+              <strong>DayStride</strong>
+              <span>Focus workspace</span>
+            </div>
+          </div>
+          <button id="menuCloseBtn" class="icon-button" type="button" aria-label="Close menu">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <nav class="nav-list" aria-label="Main navigation">
+          <button class="nav-item active" type="button" data-route="home">
+            <span class="nav-icon" aria-hidden="true"> 
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z" fill="currentColor"/></svg>
+            </span>
+            <span class="nav-text">Home</span>
+          </button>
+          <button class="nav-item" type="button" data-route="dashboard" aria-label="Dashboard">
+            <span class="nav-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 13h8V3H3v10zm10 8h8V3h-8v18zM3 21h8v-6H3v6z" fill="currentColor"/></svg>
+            </span>
+            <span class="nav-text">Dashboard</span>
+          </button>
+          <button class="nav-item" type="button" data-route="activities" aria-label="My activities">
+            <span class="nav-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </span>
+            <span class="nav-text">My activities</span>
+          </button>
+          <button class="nav-item" type="button" data-route="profile" aria-label="Profile">
+            <span class="nav-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6z" fill="currentColor"/></svg>
+            </span>
+            <span class="nav-text">Profile</span>
+          </button>
+        </nav>
+
+        <div class="account-panel">
+          <div class="account-info">
+            <div class="profile-avatar">DS</div>
+            <div class="account-meta">
+              <strong id="accountName">Account</strong>
+            </div>
+          </div>
+          <div class="account-controls">
+            <span id="accountEmail" class="account-email">signed in</span>
+            <div class="account-actions">
+              <button id="signoutBtn" class="ghost-button" type="button" aria-label="Sign out">
+                <span class="signout-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                Sign out
+              </button>
+              <button id="themeToggleBtn" class="theme-toggle" type="button" aria-label="Switch to dark mode">
+                <span class="theme-icon sun" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 4V2M12 22v-2M4.93 4.93 3.51 3.51M20.49 20.49l-1.42-1.42M4 12H2M22 12h-2M4.93 19.07l-1.42 1.42M20.49 3.51l-1.42 1.42" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="theme-icon moon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/></svg>
+                </span>
+                <span class="theme-toggle-text">Dark</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div class="topbar-title">
+            <button id="menuToggleBtn" class="icon-button menu-button" type="button" aria-label="Open menu" aria-expanded="false">
+              <svg class="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg class="close-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div>
+              <p class="eyebrow">Planner</p>
+              <h1 id="pageTitle">Home</h1>
+            </div>
+          </div>
+          <div class="topbar-actions">
+            <button id="topbarThemeToggleBtn" class="theme-toggle compact" type="button" aria-label="Switch to dark mode">
+              <span class="theme-icon sun" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4V2M12 22v-2M4.93 4.93 3.51 3.51M20.49 20.49l-1.42-1.42M4 12H2M22 12h-2M4.93 19.07l-1.42 1.42M20.49 3.51l-1.42 1.42" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="theme-icon moon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/></svg>
+              </span>
+              <span class="theme-toggle-text">Dark</span>
+            </button>
+            <button id="newActivityBtn" class="primary-button compact" type="button" data-route="activities" aria-label="New activity">
+              <span class="new-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              New activity
+            </button>
+          </div>
+        </header>
+
+        <p id="message" class="message" role="status"></p>
+
+        <section id="homePage" class="page-view">
+          <div class="hero-panel">
+            <div>
+              <p class="eyebrow" id="todayLabel">Today</p>
+              <h2 id="welcomeTitle">Welcome back.</h2>
+              <p id="homeSummary">Your schedule will appear here after you add activities.</p>
+            </div>
+            <button class="secondary-button" type="button" data-route="dashboard">
+              View dashboard
+            </button>
+          </div>
+
+          <div class="stat-grid">
+            <article class="stat-card">
+              <span>Today</span>
+              <strong id="todayCount">0</strong>
+              <p>activities</p>
+            </article>
+            <article class="stat-card">
+              <span>Planned</span>
+              <strong id="plannedMinutes">0m</strong>
+              <p>scheduled time</p>
+            </article>
+            <article class="stat-card">
+              <span>Completed</span>
+              <strong id="completedCount">0</strong>
+              <p>finished tasks</p>
+            </article>
+          </div>
+
+          <div class="insight-grid">
+            <article class="insight-card">
+              <span>Up next</span>
+              <strong id="nextActivityTitle">Nothing scheduled</strong>
+              <p id="nextActivityMeta">Add an activity to build your plan.</p>
+            </article>
+            <article class="insight-card">
+              <span>Focus tip</span>
+              <strong id="focusTipTitle">Keep it simple</strong>
+              <p id="focusTipCopy">Start with one high-value activity and protect that time.</p>
+            </article>
+          </div>
+
+          <section class="work-panel">
+            <div class="section-heading row-heading">
+              <div>
+                <p class="eyebrow">Today</p>
+                <h2>Priority activities</h2>
+              </div>
+              <button class="link-button" type="button" data-route="activities">Manage all</button>
+            </div>
+            <div id="homeActivityList" class="activity-list"></div>
+          </section>
+        </section>
+
+        <section id="dashboardPage" class="page-view hidden">
+          <div class="dashboard-grid">
+            <article class="metric-panel">
+              <span>Total activities</span>
+              <strong id="totalActivities">0</strong>
+              <p>across your workspace</p>
+            </article>
+            <article class="metric-panel">
+              <span>High priority</span>
+              <strong id="highPriorityCount">0</strong>
+              <p>needs attention</p>
+            </article>
+            <article class="metric-panel">
+              <span>Completion</span>
+              <strong id="completionRate">0%</strong>
+              <p>overall progress</p>
+            </article>
+            <article class="metric-panel">
+              <span>Today planned</span>
+              <strong id="dashboardTodayMinutes">0m</strong>
+              <p>focused time today</p>
+            </article>
+          </div>
+
+          <div class="dashboard-columns">
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Timeline</p>
+                <h2>Today schedule</h2>
+              </div>
+              <div id="timelineList" class="timeline-list"></div>
+            </section>
+
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Status</p>
+                <h2>Activity balance</h2>
+              </div>
+              <div id="statusBreakdown" class="breakdown-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="activitiesPage" class="page-view hidden">
+          <section class="work-panel">
+            <div class="section-heading">
+              <p class="eyebrow">Activity details</p>
+              <h2 id="formTitle">Create activity</h2>
+            </div>
+            <form id="scheduleForm" class="grid-form">
+              <input type="hidden" id="scheduleId" />
+
+              <label>
+                Activity title
+                <input id="title" type="text" minlength="3" required />
+              </label>
+
+              <label>
+                Date
+                <input id="taskDate" type="date" required />
+              </label>
+
+              <label>
+                Start time
+                <input id="startTime" type="time" required />
+              </label>
+
+              <label>
+                End time
+                <input id="endTime" type="time" required />
+              </label>
+
+              <label>
+                Priority
+                <select id="priority" required>
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </label>
+
+              <label>
+                Status
+                <select id="status" required>
+                  <option value="pending" selected>Pending</option>
+                  <option value="in_progress">In progress</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </label>
+
+              <label class="full-width">
+                Notes
+                <textarea id="notes" rows="3" maxlength="500" placeholder="Optional notes"></textarea>
+              </label>
+
+              <div class="form-actions full-width">
+                <button type="submit" class="primary-button">Save activity</button>
+                <button type="button" id="resetBtn" class="ghost-button">Clear</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="work-panel">
+            <div class="activity-toolbar">
+              <div class="section-heading">
+                <p class="eyebrow">Workspace</p>
+                <h2>My activities</h2>
+              </div>
+              <div class="filters">
+                <label>
+                  Search
+                  <input id="filterSearch" type="search" placeholder="Find activity" />
+                </label>
+                <label>
+                  Date
+                  <input id="filterDate" type="date" />
+                </label>
+                <label>
+                  Status
+                  <select id="filterStatus">
+                    <option value="all">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </label>
+                <label>
+                  Priority
+                  <select id="filterPriority">
+                    <option value="all">All</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </label>
+                <button id="clearFiltersBtn" class="ghost-button compact" type="button">Clear filters</button>
+              </div>
+            </div>
+            <div id="scheduleList" class="activity-list"></div>
+          </section>
+        </section>
+
+        <section id="profilePage" class="page-view hidden">
+          <div class="profile-grid">
+            <section class="profile-card">
+              <div class="profile-identity">
+                <div id="profileAvatar" class="profile-avatar">DS</div>
+                <div>
+                  <p class="eyebrow">Profile</p>
+                  <h2 id="profileName">Account name</h2>
+                  <p id="profileEmail">account@example.com</p>
+                </div>
+              </div>
+
+              <div class="profile-details">
+                <div>
+                  <span>Account status</span>
+                  <strong>Active</strong>
+                </div>
+                <div>
+                  <span>Member since</span>
+                  <strong id="profileMemberSince">Today</strong>
+                </div>
+                <div>
+                  <span>Workspace</span>
+                  <strong>Personal planner</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Account settings</p>
+                <h2>Edit profile</h2>
+              </div>
+              <form id="profileForm" class="profile-form">
+                <label>
+                  Full name
+                  <input id="profileNameInput" type="text" minlength="2" autocomplete="name" required />
+                </label>
+                <label>
+                  Email address
+                  <input id="profileEmailInput" type="email" autocomplete="email" required />
+                </label>
+                <button class="primary-button" type="submit">Save profile</button>
+              </form>
+            </section>
+          </div>
+
+          <div class="profile-grid">
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Productivity</p>
+                <h2>Profile insights</h2>
+              </div>
+              <div class="profile-insights">
+                <article>
+                  <span>Total activities</span>
+                  <strong id="profileTotalActivities">0</strong>
+                </article>
+                <article>
+                  <span>Completed</span>
+                  <strong id="profileCompletedActivities">0</strong>
+                </article>
+                <article>
+                  <span>High priority</span>
+                  <strong id="profileHighPriority">0</strong>
+                </article>
+              </div>
+            </section>
+
+            <section class="work-panel">
+              <div class="section-heading">
+                <p class="eyebrow">Security</p>
+                <h2>Session</h2>
+              </div>
+              <p class="profile-copy">
+                Your profile is protected by a signed session token. Sign out when using a shared computer.
+              </p>
+              <button id="profileSignoutBtn" class="ghost-button" type="button" aria-label="Sign out">Sign out</button>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <script src="app.js"></script>
   </body>
