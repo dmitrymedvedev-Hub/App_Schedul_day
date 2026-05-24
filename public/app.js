@@ -109,12 +109,17 @@ const today = () => formatDateInput();
 const toDateKey = (value) => {
   if (!value) return '';
 
-  const date = new Date(value);
-  if (!Number.isNaN(date.getTime())) {
-    return date.toLocaleDateString('en-CA');
+  const stringValue = String(value);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(stringValue)) {
+    return stringValue;
   }
 
-  return String(value).slice(0, 10);
+  const date = new Date(value);
+  if (!Number.isNaN(date.getTime())) {
+    return formatDateInput(date);
+  }
+
+  return stringValue.slice(0, 10);
 };
 
 const toTime = (value) => String(value || '').slice(0, 5);
