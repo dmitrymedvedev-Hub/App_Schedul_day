@@ -732,7 +732,6 @@ elements.clearFiltersBtn.addEventListener('click', () => {
 if (elements.menuToggleBtn) elements.menuToggleBtn.addEventListener('click', toggleMenu);
 if (elements.menuCloseBtn) elements.menuCloseBtn.addEventListener('click', closeMenu);
 if (elements.sidebarOverlay) elements.sidebarOverlay.addEventListener('click', closeMenu);
-if (elements.newActivityBtn) elements.newActivityBtn.addEventListener('click', openActivitiesPage);
 elements.themeButtons.forEach((button) => button.addEventListener('click', toggleTheme));
 window.addEventListener('resize', () => {
   if (window.innerWidth > 980) openMenu();
